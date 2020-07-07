@@ -1,5 +1,7 @@
 # tic-tac-toe
 
-To run the game, run the game.py file on the command line:
+* Download or Clone the repository
+* Navgiate into the folder
+* Run game.py to play the game
 > python3 game.py
     
