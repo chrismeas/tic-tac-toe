@@ -23,29 +23,43 @@ def main():
         print("Player " + player_list[current_round%2 - 1].get_number() + " enter a coord x,y to place your " + player_list[current_round%2 - 1].get_character() + " or enter 'q' to give up: ", end="")
         coord = input()
         print()
-        if coord == 'q':
+        coordinates = get_coord(coord)
+        if coordinates == 'q':
             print("You have ended the game")
             return
-        else:
-            x = int(coord[0])
-            y = int(coord[2])
-            if (x >= 1 or x <= 3) and (y >= 1 or y <= 3):
-                if (check_board(x-1, y-1)):
-                    board[x-1][y-1] = player_list[current_round%2 - 1].get_character()
-                    winner = check_win(player_list[current_round%2 - 1].get_character())
-                    if (winner == False):
-                        print("Move accepted, here's the current board: ")
-                    else:
-                        print("Move accepted, well done you've won the game!")
-                        complete = 1
-                    display_board()
-                    current_round += 1
+        elif len(coordinates) == 2:
+            x = coordinates[0]
+            y = coordinates[1]
+            if (check_board(x, y)):
+                board[x][y] = player_list[current_round%2 - 1].get_character()
+                winner = check_win(player_list[current_round%2 - 1].get_character())
+                if (winner == False):
+                    print("Move accepted, here's the current board: \n")
                 else:
-                    print("Oh no, a piece is already at this place! Try again...")
+                    print("Move accepted, well done you've won the game!\n")
+                    complete = 1
+                display_board()
+                current_round += 1
             else:
-                print("This coordinate doesn't exist. Try again...")
+                print("Oh no, a piece is already at this place! Try again...")
+        else:
+            print("This coordinate doesn't exist. Try again...\n")
     if current_round > 9:
         print("Sorry, there are no winners")
+
+def get_coord(coordinate):
+    if len(coordinate) == 1 and coordinate == 'q':
+        return 'q'
+    else:
+        if len(coordinate) == 3:
+            x = int(coordinate[0])
+            y = int(coordinate[2])
+            if (x > 0 and x <= 3) and coordinate[1] == ',' and (y > 0 and y <= 3):
+                return [x - 1, y - 1]
+            else:
+                return []
+        else:
+            return []
 
 def check_board(x, y):
     if (board[x][y] == '.'):
